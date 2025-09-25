@@ -33,15 +33,6 @@ jobs:
 
     - name: Install uv if needed
       run: pip install uv
-
-    - name: Install PyTorch ${{ matrix.torch-version }}+${{ matrix.cuda-version }}
-      run: |
-        uv add torch==${{ matrix.torch-version }} --extra-index-url https://download.pytorch.org/whl/${{ matrix.cuda-version }}
-        python -c "import torch; print('PyTorch:', torch.__version__)"
-        python -c "import torch; print('CUDA:', torch.version.cuda)"
-    - name: Install torch_scatter
-      run: |
-        uv pip install torch-scatter -f https://data.pyg.org/whl/torch-${{ matrix.torch-version }}+${{ matrix.cuda-version }}.html
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
