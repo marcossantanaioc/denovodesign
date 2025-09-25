@@ -12,6 +12,7 @@ dependencies = [
     "pydantic>=2.11.9",
     "rdkit>=2025.3.6",
     "scipy>=1.16.2",
+    "torch>=2.8.0",
 ]
 
 [project.scripts]
@@ -116,22 +117,7 @@ ignore = [
                "D102", # missing docstring in public method
                "D100", # missing docstring in public module
               ]
-"*__init__.py" = ["ANN001", # type annotations
-               "ANN002", # type annotations for *args
-               "ANN003", # type annotations for **kwargs
-               "ANN201", # private function type annotations
-               "ANN202", # public function type annotations
-               "ANN204",  # init function type annotations
-               "D104", # missing docstring in public package-level function
-               "D105", # missing docstring in magic method
-               "D107", # missing docstring in public method
-               "PD901", # never use `df` as variable name
-               "PLR2004", # magic value used in comparison (i.e. hardcoded constants)
-               "S101", # use `assert` statements in tests
-               "SLF001", # accessing protected members in tests
-               "D101", # missing docstring in public class
-               "D102", # missing docstring in public method
-               "D100", # missing docstring in public module
+"**/__init__.py" = ["ALL", # all warnings
               ]
 [tool.ruff.lint.pydocstyle]
 convention = "google"
