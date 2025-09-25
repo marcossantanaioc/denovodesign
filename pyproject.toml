@@ -1,0 +1,138 @@
+[project]
+name = "denovodesign"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "marcossantanaioc", email = "marcosvssantana@gmail.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "numpy>=2.3.3",
+    "pydantic>=2.11.9",
+    "rdkit>=2025.3.6",
+    "scipy>=1.16.2",
+    "torch>=2.8.0",
+]
+
+[project.scripts]
+denovodesign = "denovodesign:main"
+
+[project.optional-dependencies]
+pandas = [
+    "matplotlib>=3.10.6",
+    "seaborn>=0.13.2",
+]
+
+[tool.uv.workspace]
+members = ["packages/*"]
+
+[build-system]
+requires = ["uv_build>=0.8.22,<0.9.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "coverage>=7.10.7",
+    "pytest>=8.4.2",
+]
+lint = [
+    "ruff>=0.13.1",
+]
+
+[tool.ruff]
+# https://github.com/charliemarsh/ruff
+
+force-exclude = true
+indent-width = 2
+line-length = 80
+
+
+[tool.ruff.format]
+# Like Black, use double quotes for strings.
+quote-style = "double"
+
+
+[tool.ruff.lint.isort]
+combine-as-imports = false
+force-single-line = true
+force-sort-within-sections = true
+force-wrap-aliases = false
+lines-after-imports = 2
+section-order = ["future", "standard-library", "typing", "third-party", "first-party", "local-folder"]
+sections = {typing = ["typing", "typing_extensions", "types"]}
+single-line-exclusions = ["typing", "collections.abc"]
+
+[tool.ruff.lint]
+select = [ "I", # import sorting
+"E", # pycodestyle errors
+        "F", # pyflakes errors
+        "UP", # pyupgrade
+        "S", # bandit
+        "D", # pydocstyle
+        "W", # pycodestyle warnings
+        "B", # bugbear
+        "INP", # __init__.py
+        "COM", # commas
+        "SLF", # private access
+        "TID", # tidy imports
+        "TD", # todos
+        "PD", # pandas
+        "PL", # pylint
+        "NPY", # numpy
+        "RUF", # ruff
+        "ASYNC", # async
+        "ANN", # type annotations
+        ]
+
+typing-modules = ["typing", "typing_extensions", "types"]
+
+ignore = [
+    "ANN204",  # init function type annotations
+    "ANN002",  # type annotations for *args
+    "ANN003",  # type annotations for **kwargs
+    "ANN401",  # standalone `Any` as type annotations
+    "PLC0206", # check for dictionary iterations that extract the dictionary value via explicit indexing, instead of using .items()
+    "D105", # missing docstring in magic method
+    "COM812", # trailing comma
+    "D203", # incorrect blank line before class
+    "D213", # multi-line summary second line
+]
+
+[tool.ruff.lint.per-file-ignores]
+"*_test.py" = ["ANN001", # type annotations
+               "ANN002", # type annotations for *args
+               "ANN003", # type annotations for **kwargs
+               "ANN201", # private function type annotations
+               "ANN202", # public function type annotations
+               "ANN204",  # init function type annotations
+               "D104", # missing docstring in public package-level function
+               "D105", # missing docstring in magic method
+               "D107", # missing docstring in public method
+               "PD901", # never use `df` as variable name
+               "PLR2004", # magic value used in comparison (i.e. hardcoded constants)
+               "S101", # use `assert` statements in tests
+               "SLF001", # accessing protected members in tests
+               "D101", # missing docstring in public class
+               "D102", # missing docstring in public method
+               "D100", # missing docstring in public module
+              ]
+"__init__.py" = ["ANN001", # type annotations
+               "ANN002", # type annotations for *args
+               "ANN003", # type annotations for **kwargs
+               "ANN201", # private function type annotations
+               "ANN202", # public function type annotations
+               "ANN204",  # init function type annotations
+               "D104", # missing docstring in public package-level function
+               "D105", # missing docstring in magic method
+               "D107", # missing docstring in public method
+               "PD901", # never use `df` as variable name
+               "PLR2004", # magic value used in comparison (i.e. hardcoded constants)
+               "S101", # use `assert` statements in tests
+               "SLF001", # accessing protected members in tests
+               "D101", # missing docstring in public class
+               "D102", # missing docstring in public method
+               "D100", # missing docstring in public module
+              ]
+[tool.ruff.lint.pydocstyle]
+convention = "google"
