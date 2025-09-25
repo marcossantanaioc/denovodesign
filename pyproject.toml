@@ -11,8 +11,8 @@ dependencies = [
     "numpy>=2.3.3",
     "pydantic>=2.11.9",
     "rdkit>=2025.3.6",
+    "ruff>=0.13.1",
     "scipy>=1.16.2",
-    "torch>=2.8.0",
 ]
 
 [project.scripts]
