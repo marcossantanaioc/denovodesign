@@ -12,7 +12,6 @@ dependencies = [
     "pydantic>=2.11.9",
     "rdkit>=2025.3.6",
     "scipy>=1.16.2",
-    "torch>=2.8.0",
 ]
 
 [project.scripts]
@@ -117,7 +116,7 @@ ignore = [
                "D102", # missing docstring in public method
                "D100", # missing docstring in public module
               ]
-"__init__.py" = ["ANN001", # type annotations
+"*__init__.py" = ["ANN001", # type annotations
                "ANN002", # type annotations for *args
                "ANN003", # type annotations for **kwargs
                "ANN201", # private function type annotations
