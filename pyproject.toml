@@ -13,6 +13,7 @@ dependencies = [
     "rdkit>=2025.3.6",
     "ruff>=0.13.1",
     "scipy>=1.16.2",
+    "torch>=2.8.0",
 ]
 
 [project.scripts]
@@ -46,6 +47,27 @@ lint = [
 force-exclude = true
 indent-width = 2
 line-length = 80
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".hg",
+    ".mypy_cache",
+    ".nox",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    "__pypackages__",
+    "__pycache__",
+    # Add your virtual environment folders if they are named 'venv' or '.venv'
+    "venv",
+    ".venv",
+    # If you have specific build or distribution directories
+    "build",
+    "dist",
+]
 
 
 [tool.ruff.format]

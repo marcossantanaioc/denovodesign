@@ -11,6 +11,12 @@ class Molecule(pydantic.BaseModel, frozen=True, arbitrary_types_allowed=True):
 
   @pydantic.computed_field
   @property
+  def tokens(self) -> tuple[str, ...]:
+    """Store tokens for a molecule."""
+    pass
+
+  @pydantic.computed_field
+  @property
   def molecule(self) -> Chem.Mol | None:
     """Convert smiles to Chem.Mol."""
     return Chem.MolFromSmiles(self.smiles)
