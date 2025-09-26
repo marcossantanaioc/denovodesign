@@ -10,6 +10,7 @@ from denovodesign import constants
 @dataclasses.dataclass(kw_only=True, frozen=True)
 class Tokens:
   """Represents tokens for a molecule."""
+
   raw_tokens: Sequence[str]
 
   def get_smiles(self) -> str:
@@ -42,5 +43,5 @@ def tokenize(
   """
   tokens = re.findall(pattern, smiles)
   if not tokens:
-      raise ValueError(f"No tokens found in the SMILES string: {smiles}")
+    raise ValueError(f"No tokens found in the SMILES string: {smiles}")
   return Tokens(raw_tokens=tokens)
