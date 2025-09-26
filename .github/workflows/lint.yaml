@@ -1,0 +1,36 @@
+name: Lint
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  ruff-check:
+    name: Run Ruff Checks
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: "Set up Python"
+        uses: actions/setup-python@v5
+        with:
+          python-version-file: "pyproject.toml"
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+
+      - name: Install Ruff (if not a project dependency)
+        # Note: If ruff is already in your pyproject.toml dev dependencies,
+        # you can use 'uv sync --locked --dev' instead of this install
+        run: uv venv && uv pip install ruff
+
+      - name: Check for Linting Errors
+        # Checks for all enabled linting rules
+        run: uv run ruff check .
+
+      - name: Check Code Formatting
+        # Ensures all files adhere to the configured formatting rules
+        run: uv run ruff format --check .
