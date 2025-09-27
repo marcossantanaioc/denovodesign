@@ -1,0 +1,64 @@
+name: Continuous Integration (CI)
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  lint:
+    # Changed job name from 'ruff-check' to 'lint' for simplicity
+    name: Linting with Ruff
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version-file: "pyproject.toml"
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+
+      - name: Install Linting Dependencies
+        # Use uv sync to install ruff if it's in your dev dependencies (best practice)
+        run: uv sync --locked --dev
+
+      - name: Check for Linting Errors
+        # Added --output-format=github to show annotations directly in the PR files
+        run: uv run ruff check --output-format=github .
+
+      - name: Check Code Formatting
+        run: uv run ruff format --check .
+
+  test:
+    # Changed job name from 'testing' to 'test' for simplicity
+    name: Unittesting
+    runs-on: ubuntu-latest
+
+    # Enforce job order: only run tests if linting (job: lint) succeeds
+    needs: lint
+
+    steps:
+      # Checkout, Python Setup, and uv Install steps are repeated here.
+      # This redundancy is necessary because 'test' is a separate job
+      # running on a fresh environment. The overall file structure is NOT redundant.
+      - uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version-file: "pyproject.toml"
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+
+      - name: Install Project Dependencies (Including Test Tools)
+        # Use all-extras and dev to ensure all necessary runtime and test deps are installed
+        run: uv sync --locked --all-extras --dev
+
+      - name: Run tests
+        run: uv run coverage run -m pytest -v
