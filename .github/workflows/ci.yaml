@@ -9,7 +9,7 @@ on:
 jobs:
   lint:
     # Changed job name from 'ruff-check' to 'lint' for simplicity
-    name: Linting with Ruff
+    name: lint
     runs-on: ubuntu-latest
 
     steps:
@@ -36,7 +36,7 @@ jobs:
 
   test:
     # Changed job name from 'testing' to 'test' for simplicity
-    name: Unittesting
+    name: tests
     runs-on: ubuntu-latest
 
     # Enforce job order: only run tests if linting (job: lint) succeeds
