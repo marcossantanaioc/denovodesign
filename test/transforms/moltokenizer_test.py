@@ -31,7 +31,6 @@ class TestTokenizer:
     assert constants.SpecialTokens.BOS in full_tokens
     assert constants.SpecialTokens.EOS in full_tokens
 
-
   def test_tokenize(self):
     """Test token generation for a sequence of SMILES."""
     tokenizer = moltokenizer.MolTokenizer()
@@ -40,7 +39,7 @@ class TestTokenizer:
     # Ensure the tokenizer generates tokens for the given SMILES strings
     assert token_gen
     for tok in token_gen:
-        assert isinstance(tok, moltokenizer.Tokens)
+      assert isinstance(tok, moltokenizer.Tokens)
 
   # def test_vocabulary(self):
   #   all_tokens = []

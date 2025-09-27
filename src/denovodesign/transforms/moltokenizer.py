@@ -4,7 +4,7 @@ import collections
 from collections.abc import Iterator, Sequence
 import dataclasses
 import re
-
+import tqdm
 from denovodesign import constants
 
 
@@ -108,7 +108,7 @@ class MolTokenizer:
       A generator of Tokens objects.
 
     """
-    for smi in smiles:
+    for smi in tqdm.tqdm(smiles, total=len(smiles)):
       tokens = self._tokenize_one(smi)
       self._unique_tokens.update(tokens.get_tokens())
       yield self._tokenize_one(smiles=smi)
