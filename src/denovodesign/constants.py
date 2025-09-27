@@ -28,9 +28,24 @@ class SpecialTokens(enum.StrEnum):
   PAD = "<PAD>"
 
 
+class SpecialTokensValues(enum.IntEnum):
+  """Represents special tokens.
+
+  BOS: used to indicate start of SMILES.
+  EOS: indicates end of SMILES.
+  UNK: place holder for tokens not in the vocabulary.
+
+  """
+
+  BOS = 0
+  EOS = 1
+  UNK = 2
+  PAD = -1
+
+
 SPECIAL_TOKENS_MAPPING: Final[Mapping[str, int]] = {
-  SpecialTokens.BOS: 0,
-  SpecialTokens.EOS: 1,
-  SpecialTokens.UNK: 2,
-  SpecialTokens.PAD: -1,
+  SpecialTokens.BOS: SpecialTokensValues.BOS,
+  SpecialTokens.EOS: SpecialTokensValues.EOS,
+  SpecialTokens.UNK: SpecialTokensValues.UNK,
+  SpecialTokens.PAD: SpecialTokensValues.PAD,
 }
