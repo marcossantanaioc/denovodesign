@@ -1,6 +1,5 @@
 """Functions that convert molecules into different formats."""
 
-import collections
 from collections.abc import Iterator, Sequence
 import dataclasses
 import re
@@ -74,9 +73,9 @@ class MolTokenizer:
       A mapping from tokens to integers
 
     """
-    mapping = collections.OrderedDict(
-      {tok: idx for idx, tok in enumerate(sorted(self._unique_tokens), start=3)}
-    )
+    mapping = {
+      tok: idx for idx, tok in enumerate(sorted(self._unique_tokens), start=3)
+    }
 
     return {**constants.SPECIAL_TOKENS_MAPPING, **mapping}
 
