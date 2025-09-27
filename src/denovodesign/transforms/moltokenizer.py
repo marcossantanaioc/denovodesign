@@ -144,4 +144,4 @@ class MolTokenizer:
         for tok in token.get_tokens()
       )
       if feat:
-        yield torch.tensor(feat).long().view(1, -1)
+        yield torch.tensor(feat).long()
