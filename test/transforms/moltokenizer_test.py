@@ -1,6 +1,7 @@
 """Test for tokenizer."""
 
 import pytest
+import torch
 
 from denovodesign import constants
 from denovodesign.transforms import moltokenizer
@@ -20,6 +21,70 @@ _INPUT_SMILES = (
 
 
 class TestTokenizer:
+  @pytest.fixture
+  def smiles(self) -> str:
+    return _INPUT_SMILES[0]
+
+  @pytest.fixture
+  def tokens(self) -> tuple[str, ...]:
+    return [
+      "C",
+      "1",
+      "C",
+      "O",
+      "C",
+      "C",
+      "(",
+      "=",
+      "O",
+      ")",
+      "N",
+      "1",
+      "C",
+      "2",
+      "=",
+      "C",
+      "C",
+      "=",
+      "C",
+      "(",
+      "C",
+      "=",
+      "C",
+      "2",
+      ")",
+      "N",
+      "3",
+      "C",
+      "[C@@H]",
+      "(",
+      "O",
+      "C",
+      "3",
+      "=",
+      "O",
+      ")",
+      "C",
+      "N",
+      "C",
+      "(",
+      "=",
+      "O",
+      ")",
+      "C",
+      "4",
+      "=",
+      "C",
+      "C",
+      "=",
+      "C",
+      "(",
+      "S",
+      "4",
+      ")",
+      "Cl",
+    ]
+
   @pytest.mark.parametrize("smiles", _INPUT_SMILES)
   def test_tokenize_one(self, smiles):
     """Test tokenization and ensure special tokens are included."""
@@ -41,14 +106,69 @@ class TestTokenizer:
     for tok in token_gen:
       assert isinstance(tok, moltokenizer.Tokens)
 
-  # def test_vocabulary(self):
-  #   all_tokens = []
-  #   for smiles in _INPUT_SMILES:
-  #     all_tokens.append(moltokenizer.tokenize(smiles=smiles))
-
-  #   unique_tokens = set()
-  #   for t in all_tokens:
-  #     unique_tokens.update(set(t.raw_tokens))
-  #   vocab = moltokenizer.MolVocab(tokens=all_tokens)
-  #   assert unique_tokens.issubset(set(vocab.vocab.keys()))
-  #   assert constants.SpecialTokens.UNK in vocab.vocab
+  def test_featurize(self, smiles):
+    expected_features = torch.tensor(
+      [
+        1,
+        11,
+        6,
+        11,
+        14,
+        11,
+        11,
+        4,
+        10,
+        14,
+        5,
+        13,
+        6,
+        11,
+        7,
+        10,
+        11,
+        11,
+        10,
+        11,
+        4,
+        11,
+        10,
+        11,
+        7,
+        5,
+        13,
+        8,
+        11,
+        16,
+        4,
+        14,
+        11,
+        8,
+        10,
+        14,
+        5,
+        11,
+        13,
+        11,
+        4,
+        10,
+        14,
+        5,
+        11,
+        9,
+        10,
+        11,
+        11,
+        10,
+        11,
+        4,
+        15,
+        9,
+        5,
+        12,
+        2,
+      ]
+    )
+    tokenizer = moltokenizer.MolTokenizer()
+    feats = next(tokenizer.featurize(smiles=[smiles]))
+    assert len(feats) == len(expected_features)
+    assert torch.equal(feats, expected_features)
