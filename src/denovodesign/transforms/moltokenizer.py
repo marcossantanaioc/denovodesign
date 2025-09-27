@@ -49,6 +49,7 @@ class Tokens:
       f"num_tokens={self.num_tokens}|unique={self.num_unique_tokens}>"
     )
 
+
 class MolTokenizer:
   """Creates a vocabulary for a collection of tokens."""
 
