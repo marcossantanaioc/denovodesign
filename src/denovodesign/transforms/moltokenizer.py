@@ -75,7 +75,7 @@ class MolTokenizer:
 
     """
     mapping = {
-      tok: idx for idx, tok in enumerate(sorted(self._unique_tokens), start=3)
+      tok: idx for idx, tok in enumerate(sorted(self._unique_tokens), start=4)
     }
 
     return {**constants.SPECIAL_TOKENS_MAPPING, **mapping}

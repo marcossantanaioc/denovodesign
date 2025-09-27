@@ -37,10 +37,10 @@ class SpecialTokensValues(enum.IntEnum):
 
   """
 
-  BOS = 0
-  EOS = 1
-  UNK = 2
-  PAD = 99
+  PAD = 0
+  BOS = 1
+  EOS = 2
+  UNK = 3
 
 
 SPECIAL_TOKENS_MAPPING: Final[Mapping[str, int]] = {
