@@ -13,6 +13,16 @@ class Tokens:
 
   raw_tokens: Sequence[str]
 
+  @property
+  def num_tokens(self) -> int:
+    """Returns number of tokens."""
+    return len(self.raw_tokens)
+
+  @property
+  def num_unique_tokens(self) -> int:
+    """Returns number of unique tokens."""
+    return len(set(self.raw_tokens))
+
   def get_smiles(self) -> str:
     """Returns the original SMILES."""
     return "".join(self.raw_tokens)
@@ -20,6 +30,15 @@ class Tokens:
   def get_token(self) -> tuple[str, ...]:
     """Returns raw token appended with BOS and EOS tokens."""
     return (constants.BOS, *tuple(self.raw_tokens), constants.EOS)
+
+  def __repr__(self):
+    initial_tokens = self.raw_tokens[:5]
+    last_tokens = self.raw_tokens[-5:]
+    return (
+      f"<{self.__class__.__name__} "
+      f"({initial_tokens}...{last_tokens}), "
+      f"num_tokens={self.num_tokens}|unique={self.num_unique_tokens}>"
+    )
 
 
 def tokenize(
