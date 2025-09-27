@@ -25,10 +25,12 @@ class SpecialTokens(enum.StrEnum):
   BOS = "<BOS>"
   EOS = "<EOS>"
   UNK = "<UNK>"
+  PAD = "<PAD>"
 
 
 SPECIAL_TOKENS_MAPPING: Final[Mapping[str, int]] = {
   SpecialTokens.BOS: 0,
   SpecialTokens.EOS: 1,
   SpecialTokens.UNK: 2,
+  SpecialTokens.PAD: -1,
 }
