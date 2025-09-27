@@ -4,7 +4,9 @@ import collections
 from collections.abc import Iterator, Sequence
 import dataclasses
 import re
+
 import tqdm
+
 from denovodesign import constants
 
 
@@ -38,10 +40,12 @@ class Tokens:
 
   def __repr__(self):
     tokens = self.raw_tokens
-    sliced_tokens = tokens[:5], tokens[-5:]
+    size = len(tokens) // 2
+    display_str = f"{''.join(tokens[:size])}...{''.join(tokens[-size:])}"
+
     return (
       f"<{self.__class__.__name__} "
-      f"({sliced_tokens[0]}...{sliced_tokens[1]}), "
+      f"({display_str}), "
       f"num_tokens={self.num_tokens}|unique={self.num_unique_tokens}>"
     )
 
@@ -86,8 +90,6 @@ class MolTokenizer:
 
     Args:
         smiles: The SMILES string (e.g., 'CC(=O)C') to be tokenized.
-        pattern: The pre-compiled regular expression
-            used for tokenization. Defaults to constants.REGEX_ATOMS.
 
     Returns:
       A tuple of tokens including beginning of sequence (BOS) and
@@ -111,4 +113,4 @@ class MolTokenizer:
     for smi in tqdm.tqdm(smiles, total=len(smiles)):
       tokens = self._tokenize_one(smi)
       self._unique_tokens.update(tokens.get_tokens())
-      yield self._tokenize_one(smiles=smi)
+      yield tokens
