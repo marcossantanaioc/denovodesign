@@ -4,6 +4,7 @@ from collections.abc import Iterator, Sequence
 import dataclasses
 import re
 
+import torch
 import tqdm
 
 from denovodesign import constants
@@ -47,7 +48,6 @@ class Tokens:
       f"({display_str}), "
       f"num_tokens={self.num_tokens}|unique={self.num_unique_tokens}>"
     )
-
 
 class MolTokenizer:
   """Creates a vocabulary for a collection of tokens."""
@@ -99,17 +99,45 @@ class MolTokenizer:
       raise ValueError(f"No tokens found in the SMILES string: {smiles}")
     return Tokens(raw_tokens=tokens)
 
-  def tokenize(self, smiles: Sequence[str]) -> Iterator[Tokens]:
+  def tokenize(
+    self, smiles: Sequence[str], show_progress: bool = False
+  ) -> Iterator[Tokens]:
     """Tokenize a list of SMILES.
 
     Args:
       smiles: SMILES to tokenize.
+      show_progress: Whether to display a progress bar.
 
     Yields:
       A generator of Tokens objects.
 
     """
-    for smi in tqdm.tqdm(smiles, total=len(smiles)):
+    iterable = tqdm.tqdm(smiles, total=len(smiles)) if show_progress else smiles
+    for smi in iterable:
       tokens = self._tokenize_one(smi)
       self._unique_tokens.update(tokens.raw_tokens)
       yield tokens
+
+  def featurize(self, smiles: Sequence[str]) -> Iterator[torch.Tensor]:
+    """Generate features from a sequence of SMILES.
+
+    This method tokenizes the input SMILES and yields
+    tensors where tokens are represented as integers
+    based on the vocabulary.
+
+    Args:
+      smiles: Input SMILES to featurize
+
+    Yields:
+      Tensor representations for smiles
+    """
+    tokens = self.tokenize(smiles=smiles, show_progress=False)
+    for token in tokens:
+      feat = tuple(
+        self.vocab.get(
+          tok, constants.SPECIAL_TOKENS_MAPPING[constants.SpecialTokens.UNK]
+        )
+        for tok in token.get_tokens()
+      )
+      if feat:
+        yield torch.tensor(feat).long().view(1, -1)

@@ -308,6 +308,7 @@ dependencies = [
     { name = "ruff" },
     { name = "scipy" },
     { name = "torch" },
+    { name = "tqdm" },
 ]
 
 [package.optional-dependencies]
@@ -341,6 +342,7 @@ requires-dist = [
     { name = "scipy", specifier = ">=1.16.2" },
     { name = "seaborn", marker = "extra == 'pandas'", specifier = ">=0.13.2" },
     { name = "torch", specifier = ">=2.8.0" },
+    { name = "tqdm", specifier = ">=4.67.1" },
     { name = "tqdm", marker = "extra == 'dev'", specifier = ">=4.67.1" },
 ]
 provides-extras = ["pandas", "dev"]
