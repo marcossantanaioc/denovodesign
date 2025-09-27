@@ -129,6 +129,7 @@ class MolTokenizer:
 
     Args:
       smiles: Input SMILES to featurize
+      show_progress_bar: Whether to display progress bar.
 
     Yields:
       Tensor representations for smiles
