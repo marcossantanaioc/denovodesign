@@ -13,4 +13,8 @@ wheels/
 .ruff_cache
 
 # Notebooks
+notebooks/
 *.ipynb
+
+#Files
+*.csv
