@@ -112,5 +112,5 @@ class MolTokenizer:
     """
     for smi in tqdm.tqdm(smiles, total=len(smiles)):
       tokens = self._tokenize_one(smi)
-      self._unique_tokens.update(tokens.get_tokens())
+      self._unique_tokens.update(tokens.raw_tokens)
       yield tokens
