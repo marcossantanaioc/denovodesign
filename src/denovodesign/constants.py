@@ -1,5 +1,7 @@
 """Tokenizer constants."""
 
+from collections.abc import Mapping
+import enum
 import re
 
 from typing import Final
@@ -7,20 +9,26 @@ from typing import Final
 
 # Matches any atom.
 REGEX_ATOMS: Final[re.Pattern] = re.compile(
-  r"""
-    [a-z]       |   # Aromatic atoms (e.g., c, n, o)
-    [A-Z][a-z]  |   # 2-letter atoms (e.g., Cl, Br)
-    [A-Z]       |   # 1-letter atoms (e.g., C, N, O)
-    \[.*?\]     |   # Special environments (e.g., [NH+])
-    =           |   # Double bonds
-    \#          |   # Triple bonds
-    ~           |   # Tilde bond (needs escaping)
-    \d          |   # Ring closure/opening digits
-    [\(\)]      |   # Branches (parentheses)
-    \.              # Disconnected structures/salts
-""",
-  re.VERBOSE,
+  r"\[.*?\]|[()]|\d|(?:Br|Cl|Na|Li|Ca|Fe|Mg|Ti|Zn|Sn|Se|As)|[a-z]|[A-Z]|(?:=|~|-|#|%|\.|\+)"
 )
 
-BOS: Final[str] = "<BOS>"
-EOS: Final[str] = "<EOS>"
+
+class SpecialTokens(enum.StrEnum):
+  """Represents special tokens.
+
+  BOS: used to indicate start of SMILES.
+  EOS: indicates end of SMILES.
+  UNK: place holder for tokens not in the vocabulary.
+
+  """
+
+  BOS = "<BOS>"
+  EOS = "<EOS>"
+  UNK = "<UNK>"
+
+
+SPECIAL_TOKENS_MAPPING: Final[Mapping[str, int]] = {
+  SpecialTokens.BOS: 0,
+  SpecialTokens.EOS: 1,
+  SpecialTokens.UNK: 2,
+}

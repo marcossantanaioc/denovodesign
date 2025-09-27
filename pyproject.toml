@@ -25,6 +25,9 @@ pandas = [
     "matplotlib>=3.10.6",
     "seaborn>=0.13.2",
 ]
+dev = [
+    "tqdm>=4.67.1",
+]
 
 [tool.uv.workspace]
 members = ["packages/*"]
@@ -121,6 +124,8 @@ ignore = [
     "COM812", # trailing comma
     "D203", # incorrect blank line before class
     "D213", # multi-line summary second line
+    "D107", # ignore missing docstring in init
+    "D101", # ignore missing docstring in classes
 ]
 
 [tool.ruff.lint.per-file-ignores]

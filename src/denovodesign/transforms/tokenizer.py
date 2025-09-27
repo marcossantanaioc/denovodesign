@@ -1,5 +1,6 @@
 """Functions that convert molecules into different formats."""
 
+import collections
 from collections.abc import Sequence
 import dataclasses
 import re
@@ -29,7 +30,11 @@ class Tokens:
 
   def get_token(self) -> tuple[str, ...]:
     """Returns raw token appended with BOS and EOS tokens."""
-    return (constants.BOS, *tuple(self.raw_tokens), constants.EOS)
+    return (
+      constants.SpecialTokens.BOS,
+      *tuple(self.raw_tokens),
+      constants.SpecialTokens.EOS,
+    )
 
   def __repr__(self):
     initial_tokens = self.raw_tokens[:5]
@@ -64,3 +69,33 @@ def tokenize(
   if not tokens:
     raise ValueError(f"No tokens found in the SMILES string: {smiles}")
   return Tokens(raw_tokens=tokens)
+
+
+class MolVocab:
+  """Creates a vocabulary for a collection of tokens."""
+
+  def __init__(self, tokens: Sequence[Tokens]):
+    self.tokens = tokens
+
+  @property
+  def vocab(self) -> dict[str, int]:
+    """Generates a vocabulary of tokens.
+
+    This function takes a sequence of Tokens and generates unique
+    integer ids for each individual token. Returns a dictionary
+    mapping each token to a unique integer id.
+
+    Returns:
+      A mapping from tokens to integers
+
+    """
+    unique_tokens = set()
+
+    for token in self.tokens:
+      unique_tokens.update(set(token))
+
+    mapping = collections.OrderedDict(
+      {tok: idx for idx, tok in enumerate(sorted(unique_tokens), start=3)}
+    )
+
+    return {**constants.SPECIAL_TOKENS_MAPPING, **mapping}
