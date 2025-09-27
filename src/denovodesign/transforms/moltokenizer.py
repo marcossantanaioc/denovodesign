@@ -118,7 +118,9 @@ class MolTokenizer:
       self._unique_tokens.update(tokens.raw_tokens)
       yield tokens
 
-  def featurize(self, smiles: Sequence[str]) -> Iterator[torch.Tensor]:
+  def featurize(
+    self, smiles: Sequence[str], show_progress_bar: bool = False
+  ) -> Iterator[torch.Tensor]:
     """Generate features from a sequence of SMILES.
 
     This method tokenizes the input SMILES and yields
@@ -131,7 +133,7 @@ class MolTokenizer:
     Yields:
       Tensor representations for smiles
     """
-    tokens = self.tokenize(smiles=smiles, show_progress=False)
+    tokens = self.tokenize(smiles=smiles, show_progress=show_progress_bar)
     for token in tokens:
       feat = tuple(
         self.vocab.get(
